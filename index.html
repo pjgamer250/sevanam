@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>സേവനം — Govt. Services Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #163828;
+    --green-mid: #1F5E45;
+    --gold: #C08A2E;
+    --gold-soft: #E2B65B;
+    --cream: #F6F2E7;
+    --ink: #1B1A16;
+    --ink-soft: #57544A;
+    --line: #DCD4BD;
+    --card-bg: #FFFFFF;
+    --bg: var(--cream);
+    --text: var(--ink);
+    --text-soft: var(--ink-soft);
+    --surface: var(--card-bg);
+    --border: var(--line);
+    --accent: var(--green-mid);
+    --accent-2: var(--gold);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14211B;
+      --text: #EDE8DA;
+      --text-soft: #B2AA98;
+      --surface: #1B2C24;
+      --border: #2E4438;
+      --accent: #6FBE9B;
+      --accent-2: #E2B65B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14211B;
+    --text: #EDE8DA;
+    --text-soft: #B2AA98;
+    --surface: #1B2C24;
+    --border: #2E4438;
+    --accent: #6FBE9B;
+    --accent-2: #E2B65B;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Noto Sans Malayalam', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background .25s ease, color .25s ease;
+  }
+  [lang-active="ml"] .ml-text { font-family: 'Manjari', 'Noto Sans Malayalam', sans-serif; }
+
+  header {
+    position: sticky;
+    top: 0;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 22px 20px 16px;
+  }
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .brand .mark {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold-soft);
+    font-family: 'Manjari', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .brand h1 {
+    font-size: 19px;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .brand .sub {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    margin-top: 1px;
+  }
+  .controls { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+  .pill-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 100px;
+    padding: 7px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    font-family: inherit;
+  }
+  .pill-btn:hover { border-color: var(--accent); }
+  .pill-btn:focus-visible, .search input:focus-visible, .chip:focus-visible, .card:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+
+  .search { max-width: 980px; margin: 0 auto; padding: 14px 20px 0; }
+  .search input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14.5px;
+    font-family: inherit;
+  }
+  .search input::placeholder { color: var(--text-soft); }
+
+  .chips {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 12px 20px 18px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-soft);
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 12.5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+  }
+  .chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  main { max-width: 980px; margin: 0 auto; padding: 8px 20px 60px; }
+  .category-block { margin-top: 30px; }
+  .category-block h2 {
+    font-size: 13px;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    color: var(--accent-2);
+    margin: 0 0 12px;
+    font-weight: 700;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 15px;
+    transition: border-color .15s ease;
+    cursor: pointer;
+  }
+  .card:hover, .card.open { border-color: var(--accent); }
+  .card .name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .card .name { font-weight: 600; font-size: 14.5px; margin-bottom: 4px; }
+  .card .desc { font-size: 12.5px; color: var(--text-soft); line-height: 1.4; }
+  .card .caret { color: var(--text-soft); font-size: 11px; transition: transform .15s ease; flex-shrink: 0; }
+  .card.open .caret { transform: rotate(180deg); }
+  .sub-services {
+    display: none;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .card.open .sub-services { display: block; }
+  .sub-services ul {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .sub-services li {
+    font-size: 12.5px;
+    color: var(--text);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .sub-services li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 6px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent-2);
+  }
+  .visit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 7px 12px;
+    border-radius: 100px;
+    text-decoration: none;
+  }
+  .visit-link:hover { opacity: 0.9; }
+
+  .empty { text-align: center; padding: 60px 20px; color: var(--text-soft); }
+
+  footer {
+    max-width: 980px; margin: 0 auto; padding: 20px 20px 40px;
+    font-size: 12px; color: var(--text-soft); border-top: 1px solid var(--border); margin-top: 20px;
+  }
+  @media (max-width: 480px) {
+    .brand h1 { font-size: 17px; }
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body data-theme="">
+<header>
+  <div class="header-inner">
+    <div class="brand-row">
+      <div class="brand">
+        <div class="mark">സേ</div>
+        <div>
+          <h1 class="ml-text" id="siteTitle">സേവനം — Directory</h1>
+          <div class="sub" id="siteSub">All government e-services, one place</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="pill-btn" id="langBtn" aria-label="Toggle language">EN / മല</button>
+        <button class="pill-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+      </div>
+    </div>
+  </div>
+  <div class="search">
+    <input type="text" id="searchInput" placeholder="Search a service — Aadhaar, KSEB, PSC…" aria-label="Search services">
+  </div>
+  <div class="chips" id="chipRow"></div>
+</header>
+
+<main id="main"></main>
+
+<footer>
+  <span id="footNote">Unofficial directory of government service links. Always verify on the official site before submitting personal information.</span>
+</footer>
+
+<script>
+const DATA = [
+  {cat:"docs", name:"UIDAI — Aadhaar", name_ml:"UIDAI — ആധാർ", url:"https://uidai.gov.in", d:"Enrol, update or download your Aadhaar card.", d_ml:"ആധാർ എൻറോൾ, അപ്ഡേറ്റ്, ഡൗൺലോഡ് ചെയ്യുക.",
+    services:["New Aadhaar enrolment","Download e-Aadhaar","Update address / name / DOB","Order Aadhaar PVC card","Check Aadhaar / update status","Book enrolment appointment","Locate enrolment centre","Lock / unlock biometrics","Verify Aadhaar number","mAadhaar mobile app"],
+    services_ml:["പുതിയ ആധാർ എൻറോൾമെന്റ്","ഇ-ആധാർ ഡൗൺലോഡ്","വിലാസം / പേര് / ജനനത്തീയതി അപ്ഡേറ്റ്","ആധാർ PVC കാർഡ് ഓർഡർ","ആധാർ / അപ്ഡേറ്റ് സ്റ്റാറ്റസ് പരിശോധിക്കുക","എൻറോൾമെന്റ് അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യുക","എൻറോൾമെന്റ് കേന്ദ്രം കണ്ടെത്തുക","ബയോമെട്രിക് ലോക്ക് / അൺലോക്ക്","ആധാർ നമ്പർ പരിശോധിക്കുക","mAadhaar മൊബൈൽ ആപ്പ്"]},
+  {cat:"docs", name:"DigiLocker", name_ml:"ഡിജിലോക്കർ", url:"https://digilocker.gov.in", d:"Store and access verified documents online.", d_ml:"സാക്ഷ്യപ്പെടുത്തിയ രേഖകൾ ഓൺലൈനായി സൂക്ഷിക്കുക.",
+    services:["Issued documents (RC, marksheets, etc.)","Upload personal documents","Share documents digitally","Aadhaar-linked e-Sign","Educational certificates (DigiLocker + NAD)"],
+    services_ml:["ലഭ്യമായ രേഖകൾ (RC, മാർക്ക്ഷീറ്റ് etc.)","സ്വന്തം രേഖകൾ അപ്‌ലോഡ് ചെയ്യുക","രേഖകൾ ഡിജിറ്റലായി പങ്കിടുക","ആധാർ ലിങ്ക്ഡ് ഇ-സൈൻ","വിദ്യാഭ്യാസ സർട്ടിഫിക്കറ്റുകൾ (NAD)"]},
+  {cat:"docs", name:"Passport Seva", name_ml:"പാസ്പോർട്ട് സേവ", url:"https://passportindia.gov.in", d:"Apply for or renew an Indian passport.", d_ml:"പാസ്പോർട്ടിന് അപേക്ഷിക്കുക അല്ലെങ്കിൽ പുതുക്കുക.",
+    services:["New passport application","Passport renewal","Tatkal appointment booking","Track application status","Police clearance certificate (PCC)","Change of address / name"],
+    services_ml:["പുതിയ പാസ്പോർട്ട് അപേക്ഷ","പാസ്പോർട്ട് പുതുക്കൽ","തത്കാൽ അപ്പോയിന്റ്മെന്റ് ബുക്കിംഗ്","അപേക്ഷ സ്റ്റാറ്റസ് ട്രാക്ക് ചെയ്യുക","പോലീസ് ക്ലിയറൻസ് സർട്ടിഫിക്കറ്റ്","വിലാസം / പേര് മാറ്റം"]},
+  {cat:"docs", name:"PAN — Protean / UTIITSL", name_ml:"പാൻ കാർഡ്", url:"https://www.protean-tinpan.com", d:"Apply for a new PAN card or corrections.", d_ml:"പുതിയ പാൻ കാർഡിന് അപേക്ഷിക്കുക.",
+    services:["New PAN application","PAN correction / update","Reprint PAN card","Link PAN with Aadhaar","Check PAN status","Instant e-PAN (via Income Tax portal)"],
+    services_ml:["പുതിയ പാൻ അപേക്ഷ","പാൻ തിരുത്തൽ / അപ്ഡേറ്റ്","പാൻ കാർഡ് റീപ്രിന്റ്","പാൻ-ആധാർ ലിങ്ക്","പാൻ സ്റ്റാറ്റസ് പരിശോധിക്കുക","ഇൻസ്റ്റന്റ് ഇ-പാൻ"]},
+  {cat:"kerala", name:"Akshaya Centres", name_ml:"അക്ഷയ കേന്ദ്രം", url:"https://akshaya.kerala.gov.in", d:"Locate a nearby Akshaya centre for e-services.", d_ml:"അടുത്തുള്ള അക്ഷയ കേന്ദ്രം കണ്ടെത്തുക.",
+    services:["Locate nearest Akshaya centre","Certificate applications","Bill payments","e-District services access","Aadhaar-related services","Digital literacy programs"],
+    services_ml:["അടുത്തുള്ള അക്ഷയ കേന്ദ്രം കണ്ടെത്തുക","സർട്ടിഫിക്കറ്റ് അപേക്ഷകൾ","ബിൽ പേയ്മെന്റുകൾ","ഇ-ഡിസ്ട്രിക്റ്റ് സേവനങ്ങൾ","ആധാർ സംബന്ധിയായ സേവനങ്ങൾ","ഡിജിറ്റൽ സാക്ഷരതാ പരിപാടികൾ"]},
+  {cat:"kerala", name:"e-District Kerala", name_ml:"ഇ-ഡിസ്ട്രിക്റ്റ് കേരള", url:"https://edistrict.kerala.gov.in", d:"Certificates — income, caste, nativity and more.", d_ml:"വരുമാനം, ജാതി, നേറ്റിവിറ്റി സർട്ടിഫിക്കറ്റുകൾ.",
+    services:["Income certificate","Caste certificate","Nativity / residence certificate","Community certificate","Legal heirship certificate","Relationship certificate","Domicile certificate","No objection certificates"],
+    services_ml:["വരുമാന സർട്ടിഫിക്കറ്റ്","ജാതി സർട്ടിഫിക്കറ്റ്","നേറ്റിവിറ്റി / താമസ സർട്ടിഫിക്കറ്റ്","കമ്മ്യൂണിറ്റി സർട്ടിഫിക്കറ്റ്","അനന്തരാവകാശ സർട്ടിഫിക്കറ്റ്","റിലേഷൻഷിപ്പ് സർട്ടിഫിക്കറ്റ്","ഡൊമിസൈൽ സർട്ടിഫിക്കറ്റ്","നോ ഒബ്ജക്ഷൻ സർട്ടിഫിക്കറ്റുകൾ"]},
+  {cat:"kerala", name:"IGR Kerala (Registration)", name_ml:"രജിസ്ട്രേഷൻ വകുപ്പ്", url:"https://registration.kerala.gov.in", d:"Land and document registration services.", d_ml:"ഭൂമി, രേഖ രജിസ്ട്രേഷൻ സേവനങ്ങൾ.",
+    services:["Document / land registration","Encumbrance certificate (EC)","Marriage registration","Society / firm registration","Fair value of land","Certified copy of documents"],
+    services_ml:["രേഖ / ഭൂമി രജിസ്ട്രേഷൻ","ഭാരരഹിത സാക്ഷ്യപത്രം (EC)","വിവാഹ രജിസ്ട്രേഷൻ","സൊസൈറ്റി / ഫേം രജിസ്ട്രേഷൻ","ഭൂമിയുടെ ന്യായവില","സാക്ഷ്യപ്പെടുത്തിയ പകർപ്പ്"]},
+  {cat:"kerala", name:"Revenue Dept — ReLIS", name_ml:"റവന്യൂ വകുപ്പ്", url:"https://relis.kerala.gov.in", d:"Land records, ownership certificates.", d_ml:"ഭൂരേഖകൾ, ഉടമസ്ഥാവകാശ സർട്ടിഫിക്കറ്റുകൾ.",
+    services:["Land ownership certificate (Pattayam)","Possession certificate","Tax receipt (Nikutty)","ROR — Record of Rights","Re-survey records","Land tax payment"],
+    services_ml:["ഭൂ ഉടമസ്ഥാവകാശ സർട്ടിഫിക്കറ്റ് (പട്ടയം)","കൈവശാവകാശ സർട്ടിഫിക്കറ്റ്","നികുതി രസീത്","റെക്കോർഡ് ഓഫ് റൈറ്റ്സ്","റീ-സർവേ രേഖകൾ","ഭൂനികുതി അടയ്ക്കൽ"]},
+  {cat:"kerala", name:"Kerala PSC", name_ml:"കേരള PSC", url:"https://www.keralapsc.gov.in", d:"Job notifications, results, thulasi profile.", d_ml:"തൊഴിൽ വിജ്ഞാപനങ്ങൾ, ഫലങ്ങൾ, തുളസി പ്രൊഫൈൽ.",
+    services:["Thulasi one-time registration profile","Notifications & apply online","Exam results & rank lists","Hall ticket download","OMR answer key","Interview / DV programme"],
+    services_ml:["തുളസി വൺ-ടൈം രജിസ്ട്രേഷൻ പ്രൊഫൈൽ","വിജ്ഞാപനങ്ങൾ & ഓൺലൈൻ അപേക്ഷ","പരീക്ഷാ ഫലങ്ങൾ & റാങ്ക് ലിസ്റ്റ്","ഹാൾ ടിക്കറ്റ് ഡൗൺലോഡ്","OMR ഉത്തരസൂചിക","ഇന്റർവ്യൂ / DV പ്രോഗ്രാം"]},
+  {cat:"utilities", name:"KSEB", name_ml:"കെഎസ്ഇബി", url:"https://www.kseb.in", d:"Pay electricity bills, apply for new connections.", d_ml:"വൈദ്യുതി ബിൽ അടയ്ക്കുക, പുതിയ കണക്ഷൻ.",
+    services:["Online bill payment","New connection application","Name transfer","Load enhancement","View consumption / bill history","Report power failure / complaint"],
+    services_ml:["ഓൺലൈൻ ബിൽ പേയ്മെന്റ്","പുതിയ കണക്ഷൻ അപേക്ഷ","പേര് മാറ്റം","ലോഡ് വർദ്ധനവ്","ഉപഭോഗം / ബിൽ ചരിത്രം","പവർ പരാജയം / പരാതി റിപ്പോർട്ട്"]},
+  {cat:"utilities", name:"Kerala Water Authority", name_ml:"ജല അതോറിറ്റി", url:"https://kwa.kerala.gov.in", d:"Water bill payment and connection services.", d_ml:"ജല ബിൽ അടയ്ക്കൽ, കണക്ഷൻ സേവനങ്ങൾ.",
+    services:["Online water bill payment","New water connection","Complaint registration","Meter reading status","Tariff information"],
+    services_ml:["ഓൺലൈൻ ജല ബിൽ പേയ്മെന്റ്","പുതിയ ജല കണക്ഷൻ","പരാതി രജിസ്ട്രേഷൻ","മീറ്റർ റീഡിംഗ് സ്റ്റാറ്റസ്","താരിഫ് വിവരങ്ങൾ"]},
+  {cat:"utilities", name:"Parivahan (RTO)", name_ml:"പരിവാഹൻ", url:"https://parivahan.gov.in", d:"Driving licence, vehicle registration, RC.", d_ml:"ഡ്രൈവിംഗ് ലൈസൻസ്, വാഹന രജിസ്ട്രേഷൻ.",
+    services:["Learner's / driving licence","Vehicle registration (RC)","RC transfer / renewal","Fitness certificate","Fancy number booking","Pay road tax / fines","Vahan / Sarathi status check"],
+    services_ml:["ലേണേഴ്‌സ് / ഡ്രൈവിംഗ് ലൈസൻസ്","വാഹന രജിസ്ട്രേഷൻ (RC)","RC ട്രാൻസ്ഫർ / പുതുക്കൽ","ഫിറ്റ്നസ് സർട്ടിഫിക്കറ്റ്","ഫാൻസി നമ്പർ ബുക്കിംഗ്","റോഡ് ടാക്സ് / ഫൈൻ അടയ്ക്കൽ","വാഹൻ / സാരഥി സ്റ്റാറ്റസ്"]},
+  {cat:"finance", name:"Income Tax e-Filing", name_ml:"ഇൻകം ടാക്സ്", url:"https://www.incometax.gov.in", d:"File returns, check refund status.", d_ml:"റിട്ടേൺ ഫയൽ ചെയ്യുക, റീഫണ്ട് സ്റ്റാറ്റസ്.",
+    services:["File income tax return (ITR)","Check refund status","Link PAN-Aadhaar","Download Form 26AS / AIS","e-Verify return","Respond to notices"],
+    services_ml:["ഐടിആർ ഫയൽ ചെയ്യുക","റീഫണ്ട് സ്റ്റാറ്റസ് പരിശോധിക്കുക","പാൻ-ആധാർ ലിങ്ക്","ഫോം 26AS / AIS ഡൗൺലോഡ്","റിട്ടേൺ ഇ-വെരിഫൈ ചെയ്യുക","നോട്ടീസുകൾക്ക് മറുപടി"]},
+  {cat:"finance", name:"EPFO", name_ml:"ഇപിഎഫ്ഒ", url:"https://www.epfindia.gov.in", d:"Provident fund balance, claims, UAN services.", d_ml:"പിഎഫ് ബാലൻസ്, ക്ലെയിമുകൾ, UAN സേവനങ്ങൾ.",
+    services:["Check PF balance / passbook","UAN activation","Online PF withdrawal claim","Transfer PF on job change","Update KYC / Aadhaar","Track claim status"],
+    services_ml:["പിഎഫ് ബാലൻസ് / പാസ്ബുക്ക് പരിശോധിക്കുക","UAN ആക്ടിവേഷൻ","ഓൺലൈൻ പിഎഫ് പിൻവലിക്കൽ ക്ലെയിം","ജോലി മാറുമ്പോൾ പിഎഫ് ട്രാൻസ്ഫർ","KYC / ആധാർ അപ്ഡേറ്റ്","ക്ലെയിം സ്റ്റാറ്റസ് ട്രാക്ക് ചെയ്യുക"]},
+  {cat:"finance", name:"GST Portal", name_ml:"ജിഎസ്ടി പോർട്ടൽ", url:"https://www.gst.gov.in", d:"GST registration, returns, and payments.", d_ml:"ജിഎസ്ടി രജിസ്ട്രേഷൻ, റിട്ടേണുകൾ.",
+    services:["New GST registration","File GST returns (GSTR)","GST payment / challan","Track application status","E-way bill generation"],
+    services_ml:["പുതിയ ജിഎസ്ടി രജിസ്ട്രേഷൻ","ജിഎസ്ടി റിട്ടേൺ ഫയൽ ചെയ്യുക","ജിഎസ്ടി പേയ്മെന്റ് / ചലാൻ","അപേക്ഷ സ്റ്റാറ്റസ് ട്രാക്ക് ചെയ്യുക","ഇ-വേ ബിൽ ജനറേഷൻ"]},
+  {cat:"travel", name:"IRCTC", name_ml:"ഐആർസിടിസി", url:"https://www.irctc.co.in", d:"Book and manage train tickets.", d_ml:"ട്രെയിൻ ടിക്കറ്റ് ബുക്ക് ചെയ്യുക.",
+    services:["Book train tickets","PNR status check","Cancel / refund ticket","Tatkal booking","Train running status","e-Catering food order"],
+    services_ml:["ട്രെയിൻ ടിക്കറ്റ് ബുക്ക് ചെയ്യുക","PNR സ്റ്റാറ്റസ് പരിശോധിക്കുക","ടിക്കറ്റ് ക്യാൻസൽ / റീഫണ്ട്","തത്കാൽ ബുക്കിംഗ്","ട്രെയിൻ റണ്ണിംഗ് സ്റ്റാറ്റസ്","ഇ-കാറ്ററിംഗ് ഭക്ഷണ ഓർഡർ"]},
+  {cat:"travel", name:"KSRTC", name_ml:"കെഎസ്ആർടിസി", url:"https://ksrtc.in", d:"Kerala state bus booking and schedules.", d_ml:"ബസ് ബുക്കിംഗും ടൈംടേബിളും.",
+    services:["Bus ticket booking","Route & schedule search","Fare enquiry","Cancel / reschedule ticket","Swift (AC service) booking"],
+    services_ml:["ബസ് ടിക്കറ്റ് ബുക്കിംഗ്","റൂട്ട് & ടൈംടേബിൾ തിരയൽ","നിരക്ക് അന്വേഷണം","ടിക്കറ്റ് ക്യാൻസൽ / റീഷെഡ്യൂൾ","സ്വിഫ്റ്റ് (AC സർവീസ്) ബുക്കിംഗ്"]},
+  {cat:"welfare", name:"Kerala Health Dept", name_ml:"ആരോഗ്യ വകുപ്പ്", url:"https://dhs.kerala.gov.in", d:"Health schemes and hospital information.", d_ml:"ആരോഗ്യ പദ്ധതികളും ആശുപത്രി വിവരങ്ങളും.",
+    services:["Government hospital directory","Health scheme information","Karunya / KASP scheme","Birth & death registration link","Health helpline info"],
+    services_ml:["സർക്കാർ ആശുപത്രി ഡയറക്ടറി","ആരോഗ്യ പദ്ധതി വിവരങ്ങൾ","കാരുണ്യ / KASP പദ്ധതി","ജനന & മരണ രജിസ്ട്രേഷൻ ലിങ്ക്","ആരോഗ്യ ഹെൽപ്‌ലൈൻ വിവരങ്ങൾ"]},
+  {cat:"welfare", name:"NPS / Pension Portal", name_ml:"പെൻഷൻ പോർട്ടൽ", url:"https://www.pfrda.org.in", d:"National Pension System services.", d_ml:"നാഷണൽ പെൻഷൻ സിസ്റ്റം സേവനങ്ങൾ.",
+    services:["NPS account opening","Check NPS statement","Contribution tracking","Withdrawal / exit request","Scheme preference change"],
+    services_ml:["NPS അക്കൗണ്ട് തുറക്കൽ","NPS സ്റ്റേറ്റ്മെന്റ് പരിശോധിക്കുക","കോൺട്രിബ്യൂഷൻ ട്രാക്കിംഗ്","പിൻവലിക്കൽ / എക്സിറ്റ് അപേക്ഷ","സ്കീം മുൻഗണന മാറ്റം"]},
+];
+
+const CATS = [
+  {id:"all", en:"All", ml:"എല്ലാം"},
+  {id:"docs", en:"Documents & ID", ml:"രേഖകൾ"},
+  {id:"kerala", en:"Kerala Govt.", ml:"കേരളം"},
+  {id:"utilities", en:"Utilities", ml:"യൂട്ടിലിറ്റി"},
+  {id:"finance", en:"Finance & Tax", ml:"സാമ്പത്തികം"},
+  {id:"travel", en:"Travel", ml:"യാത്ര"},
+  {id:"welfare", en:"Health & Welfare", ml:"ക്ഷേമം"},
+];
+
+let lang = localStorage.getItem('gd_lang') || 'en';
+let theme = localStorage.getItem('gd_theme') || '';
+let activeCat = 'all';
+let query = '';
+
+const body = document.body;
+const chipRow = document.getElementById('chipRow');
+const main = document.getElementById('main');
+const searchInput = document.getElementById('searchInput');
+
+function applyTheme() {
+  if (theme) body.setAttribute('data-theme', theme);
+  else body.removeAttribute('data-theme');
+}
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.documentElement.setAttribute('lang-active', lang);
+  document.getElementById('siteTitle').textContent = lang === 'ml' ? 'സേവനം — ഡയറക്ടറി' : 'സേവനം — Directory';
+  document.getElementById('siteSub').textContent = lang === 'ml' ? 'എല്ലാ സർക്കാർ ഇ-സേവനങ്ങളും ഒരിടത്ത്' : 'All government e-services, one place';
+  searchInput.placeholder = lang === 'ml' ? 'സേവനം തിരയുക — ആധാർ, കെഎസ്ഇബി, PSC…' : 'Search a service — Aadhaar, KSEB, PSC…';
+  document.getElementById('footNote').textContent = lang === 'ml'
+    ? 'സർക്കാർ സേവന ലിങ്കുകളുടെ അനൗദ്യോഗിക ഡയറക്ടറി. വ്യക്തിഗത വിവരങ്ങൾ നൽകുന്നതിന് മുൻപ് ഔദ്യോഗിക സൈറ്റ് പരിശോധിക്കുക.'
+    : 'Unofficial directory of government service links. Always verify on the official site before submitting personal information.';
+}
+
+function renderChips() {
+  chipRow.innerHTML = '';
+  CATS.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (activeCat === c.id ? ' active' : '');
+    b.textContent = lang === 'ml' ? c.ml : c.en;
+    b.setAttribute('lang-active', lang);
+    if (lang === 'ml') b.style.fontFamily = "'Manjari','Noto Sans Malayalam',sans-serif";
+    b.onclick = () => { activeCat = c.id; render(); };
+    chipRow.appendChild(b);
+  });
+}
+
+function render() {
+  renderChips();
+  const q = query.trim().toLowerCase();
+  let filtered = DATA.filter(item => {
+    const matchesCat = activeCat === 'all' || item.cat === activeCat;
+    const matchesQ = !q || item.name.toLowerCase().includes(q) || item.name_ml.includes(query.trim()) || (item.d && item.d.toLowerCase().includes(q));
+    return matchesCat && matchesQ;
+  });
+
+  main.innerHTML = '';
+  if (filtered.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = lang === 'ml' ? 'ഒന്നും കണ്ടെത്തിയില്ല. മറ്റൊരു വാക്ക് ശ്രമിക്കുക.' : 'No services found. Try a different search.';
+    main.appendChild(empty);
+    return;
+  }
+
+  const grouped = {};
+  filtered.forEach(item => {
+    if (!grouped[item.cat]) grouped[item.cat] = [];
+    grouped[item.cat].push(item);
+  });
+
+  CATS.forEach(c => {
+    if (c.id === 'all' || !grouped[c.id]) return;
+    const block = document.createElement('div');
+    block.className = 'category-block';
+    const h2 = document.createElement('h2');
+    h2.textContent = lang === 'ml' ? c.ml : c.en;
+    block.appendChild(h2);
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    grouped[c.id].forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-expanded', 'false');
+
+      const nameRow = document.createElement('div');
+      nameRow.className = 'name-row';
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'name';
+      nameDiv.textContent = lang === 'ml' ? item.name_ml : item.name;
+      if (lang === 'ml') nameDiv.style.fontFamily = "'Manjari','Noto Sans Malayalam',sans-serif";
+      const caret = document.createElement('span');
+      caret.className = 'caret';
+      caret.textContent = '▾';
+      nameRow.appendChild(nameDiv);
+      nameRow.appendChild(caret);
+
+      const descDiv = document.createElement('div');
+      descDiv.className = 'desc';
+      descDiv.textContent = lang === 'ml' ? item.d_ml : item.d;
+      if (lang === 'ml') descDiv.style.fontFamily = "'Noto Sans Malayalam',sans-serif";
+
+      const subWrap = document.createElement('div');
+      subWrap.className = 'sub-services';
+      const ul = document.createElement('ul');
+      const list = lang === 'ml' ? item.services_ml : item.services;
+      (list || []).forEach(s => {
+        const li = document.createElement('li');
+        li.textContent = s;
+        if (lang === 'ml') li.style.fontFamily = "'Noto Sans Malayalam',sans-serif";
+        ul.appendChild(li);
+      });
+      const visitLink = document.createElement('a');
+      visitLink.className = 'visit-link';
+      visitLink.href = item.url;
+      visitLink.target = '_blank';
+      visitLink.rel = 'noopener noreferrer';
+      visitLink.textContent = (lang === 'ml' ? 'സൈറ്റ് സന്ദർശിക്കുക' : 'Visit official site') + ' ↗';
+      if (lang === 'ml') visitLink.style.fontFamily = "'Manjari','Noto Sans Malayalam',sans-serif";
+      visitLink.onclick = (e) => e.stopPropagation();
+      subWrap.appendChild(ul);
+      subWrap.appendChild(visitLink);
+
+      card.appendChild(nameRow);
+      card.appendChild(descDiv);
+      card.appendChild(subWrap);
+
+      const toggle = () => {
+        const isOpen = card.classList.toggle('open');
+        card.setAttribute('aria-expanded', String(isOpen));
+      };
+      card.onclick = toggle;
+      card.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
+
+      grid.appendChild(card);
+    });
+    block.appendChild(grid);
+    main.appendChild(block);
+  });
+}
+
+document.getElementById('langBtn').onclick = () => {
+  lang = lang === 'en' ? 'ml' : 'en';
+  try { localStorage.setItem('gd_lang', lang); } catch(e) {}
+  applyLang();
+  render();
+};
+document.getElementById('themeBtn').onclick = () => {
+  const current = theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  theme = current === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('gd_theme', theme); } catch(e) {}
+  applyTheme();
+};
+searchInput.oninput = (e) => { query = e.target.value; render(); };
+
+applyTheme();
+applyLang();
+render();
+</script>
+</body>
+</html>
